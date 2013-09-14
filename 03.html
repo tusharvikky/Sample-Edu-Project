@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <script src="//maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+    <style type="text/css" media="screen">
+	.map {
+    width: 100%;
+    height: 450px;
+    position: relative;
+	}    	
+	.question {
+	font-family: "CFont";
+	font-weight: 400;
+	font-style: italic;
+	color: #333332;
+	margin: 20px 0;
+	line-height: 1.2;
+	margin-top: 20px;
+  font-size: 28pt;
+	}
+    </style>
+  </head>
+  <body>
+
+<!-- Map -->
+    <div class="map" id="map">
+    		<!-- <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=q&source=s_&hl=en&geocode=&q=india&ie=UTF8&z=4&t=m&iwloc=addr&output=embed"></iframe> -->
+	</div><!-- / Map -->
+	
+	<!-- .container -->
+	<div class="container"> 
+	<div class="col-md-10 col-md-offset-1">
+	<p class="question">
+   Indrawati, a significant river in </p>
+      <input type="text" class="col-lg-3 form-control input-lg" placeholder="Answer" id="question" data-answer="dandakaranya">
+      
+      <p class="question"> plateau, forms the splendid waterfall of Chitrakoot in this region.</p>
+	</p>
+	<div class="row" style="margin-bottom:50px;">
+		<div class="col-md-4 col-md-offset-3" style="margin-top:20px;">
+		<button type="button" class="btn btn-primary btn-lg btn-block" id="check">Check</button>
+		</div>	
+		<div class="col-md-2 col-md-offset-10">
+			<a type="button" class="btn btn-success btn-lg btn-block" id="next" href="index.html" style="display:none;">Next</a>
+		</div>
+	</div>
+
+	
+	</div>
+
+
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" async defer>
+  	$(document).ready(function() {
+
+	//------- Google Maps ---------//
+
+	// Creating a LatLng object containing the coordinate for the center of the map i.e INDIA
+	var latlng = new google.maps.LatLng(21.7679,78.8718);
+
+	// Creating an object literal containing the properties we want to pass to the map
+	var options = {
+		zoom: 4, // This number can be set to define the initial zoom level of the map
+		center: latlng,
+		mapTypeId: google.maps.MapTypeId.TERRAIN // This value can be set to define the map type ROADMAP/SATELLITE/HYBRID/TERRAIN
+	};
+	// Calling the constructor, thereby initializing the map
+	var map = new google.maps.Map(document.getElementById('map'), options);
+
+	});
+
+  	$("button#check").on('click', function(){
+  		// Grab Content of Input box.
+  		var answer = $(document).find("input#question").val().toLowerCase();
+  		var correctAnswer = $(document).find("input#question").data("answer");
+  		console.log(answer);
+  		console.log(correctAnswer);
+  		if(answer == ""){
+  			$('#noAnswer').modal('show');
+
+  		}else if(answer == correctAnswer){
+  			/* Google Map point*/
+  			var newlatlng = new google.maps.LatLng(19.4,82.4);
+  			var newoptions = {
+				zoom: 7, // This number can be set to define the initial zoom level of the map
+				center: newlatlng,
+				mapTypeId: google.maps.MapTypeId.TERRAIN // This value can be set to define the map type ROADMAP/SATELLITE/HYBRID/TERRAIN
+			};
+			var mapAns = new google.maps.Map(document.getElementById('map'), newoptions);
+
+			$("a#next").show();
+  		}else{
+  			$('#incorrectAnswer').modal('show');
+  		}
+  		
+  	});
+
+  	</script>
+  	<!-- Modal incorrectAnswer-->
+  <div class="modal fade" id="incorrectAnswer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Wrong Answer!</h4>
+        </div>
+        <div class="modal-body">
+          Please Give this question another try!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  	<!-- Modal correctAnswer-->
+  <div class="modal fade" id="correctAnswer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Hurrey!</h4>
+        </div>
+        <div class="modal-body">
+          You are correct! Proceed to next question!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <a type="button" class="btn btn-primary" href="#">Next Question</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  	<!-- Modal noAnswer-->
+  <div class="modal fade" id="noAnswer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">No Answer?</h4>
+        </div>
+        <div class="modal-body">
+          Please Answer the Question! Go, ahead, Give it a try.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  </body>
+</html>
