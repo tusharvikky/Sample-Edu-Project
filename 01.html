@@ -103,6 +103,14 @@
 			};
 			var mapAns = new google.maps.Map(document.getElementById('map'), newoptions);
 
+      marker = new google.maps.Marker({
+        map:mapAns,
+        draggable:true,
+        animation: google.maps.Animation.DROP,
+        position: newlatlng
+      });
+      google.maps.event.addListener(marker, 'click', toggleBounce);
+
 			$("a#next").show();
   		}else{
   			$('#incorrectAnswer').modal('show');
@@ -110,6 +118,14 @@
   		
   	});
 
+    function toggleBounce() {
+
+      if (marker.getAnimation() != null) {
+        marker.setAnimation(null);
+      } else {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+      }
+    }
   	</script>
   	<!-- Modal incorrectAnswer-->
   <div class="modal fade" id="incorrectAnswer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
